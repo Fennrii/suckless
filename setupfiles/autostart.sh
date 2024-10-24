@@ -9,7 +9,7 @@ feh --bg-scale ~/.config/backgrounds/background.png &
 picom --config ~/.config/picom/picom.conf
 
 # sxhkd
-# sxhkd -c ~/.config/suckless/sxhkd/sxhkdrc &
+sxhkd -c ~/.config/suckless/sxhkd/sxhkdrc &
 
 
 # Notifs
