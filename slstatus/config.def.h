@@ -69,6 +69,8 @@ static const struct arg args[] = {
   { run_command, "^c#53b1b1^ [ Updates: %s ] ", "aptitude search '~U' | cw -l" },
   { cpu_perc, "^c#53b1b1^ [ CPU %s%% ] ", NULL },
   { ram_perc, "^c#53b1b1^ [ RAM %s%% ] ", NULL },
+  { run_command, "^c#53b1b1^ [ VOL %s%% ] ", "pactl get-sink-volume @DEFAULT_SINK@ | head -1 | awk '{print $5}' | sed 's/.$//'" },
+  /*{ run_command, "^c#53b1b1^ [ TEST: %s ] ", "echo 'test'"},*/
   { datetime, "^c#f6c634^ %s",            "%a %b %-d" },
   { datetime, "^c#bafdfe^ %s",            "%l:%M %p" },
 };

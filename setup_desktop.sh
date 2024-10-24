@@ -24,3 +24,6 @@ fi
 
 cp ./setupfiles/autostart.sh $HOME/.local/share/dwm
 cp ./setupfiles/background.png $HOME/.config/backgrounds
+
+
+

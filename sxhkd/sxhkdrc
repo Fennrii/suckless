@@ -1,2 +1,6 @@
-[super + shift]*l
- systemctl suspend
+mod4 + shift + l
+  systemctl suspend
+XF86AudioRaiseVolume
+  amixer -D pulse sset Master 5%+
+XF86AudioLowerVolume
+  amixer -D pulse sset Master 5%-
