@@ -65,5 +65,10 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument */
-	{ datetime, "%s",           "%F %T" },
+	{ kernel_release, "^c#53b1b1^ Debian %s ", NULL },
+  { run_command, "^c#53b1b1^ [ Updates: %s ] ", "aptitude search '~U' | cw -l" },
+  { cpu_perc, "^c#53b1b1^ [ CPU %s%% ] ", NULL },
+  { ram_perc, "^c#53b1b1^ [ RAM %s%% ] ", NULL },
+  { datetime, "^c#f6c634^ %s",            "%a %b %-d" },
+  { datetime, "^c#bafdfe^ %s",            "%l:%M %p" },
 };
