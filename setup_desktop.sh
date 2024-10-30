@@ -1,12 +1,12 @@
 #!/bin/bash
 
-./setupfiles/install_deps.sh
+./SetupFiles/install_deps.sh
 
 if [ ! -d "/usr/share/xsessions/" ]; then
   sudo mkdir /usr/share/xsessions/
 fi
 
-sudo cp ./setupfiles/dwm.desktop /usr/share/xsessions/ 
+sudo cp ./SetupFiles/dwm.desktop /usr/share/xsessions/ 
 
 if [ ! -d "$HOME/.config/picom" ]; then
   mkdir $HOME/.config/picom
@@ -22,8 +22,8 @@ if [ ! -d "$HOME/.config/backgrounds" ]; then
   mkdir $HOME/.config/backgrounds
 fi
 
-cp ./setupfiles/autostart.sh $HOME/.local/share/dwm
-cp ./setupfiles/background.png $HOME/.config/backgrounds
+cp ./SetupFiles/autostart.sh $HOME/.local/share/dwm
+cp ./SetupFiles/background.png $HOME/.config/backgrounds
 
 cd $HOME/.config/suckless/dwm/ &&
   sudo make clean install
