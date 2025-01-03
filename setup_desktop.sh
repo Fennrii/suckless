@@ -31,3 +31,5 @@ cd $HOME/.config/suckless/dmenu/ &&
   sudo make clean install
 cd $HOME/.config/suckless/slstatus/ &&
   sudo make clean install
+cd $HOME/.config/suckless/slock/ &&
+  sudo make clean install
