@@ -23,7 +23,7 @@ if [ ! -d "$HOME/.config/backgrounds" ]; then
 fi
 
 cp ./SetupFiles/autostart.sh $HOME/.local/share/dwm
-cp ./SetupFiles/background.png $HOME/.config/backgrounds
+cp ./SetupFiles/background*.png $HOME/.config/backgrounds
 
 cd $HOME/.config/suckless/dwm/ &&
   sudo make clean install
