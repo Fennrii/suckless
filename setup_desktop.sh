@@ -21,6 +21,10 @@ fi
 if [ ! -d "$HOME/.config/backgrounds" ]; then
   mkdir $HOME/.config/backgrounds
 fi
+if [ ! -d "$HOME/.config/sxhkd" ]; then
+  mkdir $HOME/.config/sxhkd
+  cp ./sxhkd/sxhkdrc $HOME/.config/sxhkd/sxhkdrc
+fi
 
 cp ./SetupFiles/autostart.sh $HOME/.local/share/dwm
 cp ./SetupFiles/background*.png $HOME/.config/backgrounds

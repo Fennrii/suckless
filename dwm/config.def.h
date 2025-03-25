@@ -84,6 +84,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_dark, "-nf", col_light, "-sb", col_light, "-sf", col_dark, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
+static const char *browser[]  = { "waterfox", NULL };
 static const char *sshotcmd[] = { "ksnip", "-r", NULL };
 static const char *suspend[] = { "slock", NULL };
 static const char *shutoff[] = { "systemctl", "poweroff", "--now", NULL };
@@ -94,6 +95,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = sshotcmd } },
+  { MODKEY|ShiftMask,             XK_i,      spawn,          {.v = browser } },
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = suspend } },
 	{ Mod1Mask|ControlMask,         XK_Delete, spawn,          {.v = shutoff } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
