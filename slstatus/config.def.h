@@ -65,12 +65,12 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument */
-	{ battery_perc, "^c#9a0e01^ %s%% ", "BAT0" },
-	{ kernel_release, "^c#53b1b1^ Debian %s ", NULL },
-  { run_command, "^c#53b1b1^ [ Updates: %s ] ", "aptitude search '~U' | wc -l" },
-  { cpu_perc, "^c#53b1b1^ [ CPU %s%% ] ", NULL },
-  { ram_perc, "^c#53b1b1^ [ RAM %s%% ] ", NULL },
-  { run_command, "^c#53b1b1^ [ VOL %s%% ] ", "pactl get-sink-volume @DEFAULT_SINK@ | head -1 | awk '{print $5}' | sed 's/.$//'" },
-  { datetime, "^c#f6c634^ %s",            "%a %b %-d" },
-  { datetime, "^c#bafdfe^ %s",            "%l:%M %p" },
+	{ battery_perc, "^c#CD664D^ %s%% ", "BAT0" },
+	{ kernel_release, "^c#CAC4AD^ Debian %s ", NULL },
+  { run_command, "^c#CAC4AD^ [ Updates: %s ] ", "aptitude search '~U' | wc -l" },
+  { cpu_perc, "^c#CAC4AD^ [ CPU %s%% ] ", NULL },
+  { ram_perc, "^c#CAC4AD^ [ RAM %s%% ] ", NULL },
+  { run_command, "^c#CAC4AD^ [ VOL %s%% ] ", "pactl get-sink-volume @DEFAULT_SINK@ | head -1 | awk '{print $5}' | sed 's/.$//'" },
+  { datetime, "^c#3BA99F^ %s",            "%a %b %-d" },
+  { datetime, "^c#3BA99F^ %s",            "%l:%M %p" },
 };

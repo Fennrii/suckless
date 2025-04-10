@@ -19,9 +19,9 @@ static const int showsystray        = 1;        /* 0 means no systray */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
-static const char col_dark[]       = "#000000";
-static const char col_medium[]       = "#7f7f7f";
-static const char col_light[]       = "#ffffff";
+static const char col_dark[]       = "#554742";
+static const char col_medium[]       = "#B9B49F";
+static const char col_light[]       = "#CAC4AD";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_light, col_dark, col_medium },
