@@ -3,7 +3,7 @@
 slstatus &
 
 # background
-feh --bg-scale ~/.config/backgrounds/background-dithered.png &
+feh --bg-scale ~/.config/backgrounds/background-nier.png &
 
 # compositor
 picom --config ~/.config/picom/picom.conf &
