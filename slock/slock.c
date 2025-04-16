@@ -18,6 +18,7 @@
 #include <X11/keysym.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/xpm.h>
 
 #include "arg.h"
 #include "util.h"
@@ -25,10 +26,10 @@
 char *argv0;
 
 enum {
-	BG,
 	INIT,
 	INPUT,
 	FAILED,
+  BG,
 	NUMCOLS
 };
 
@@ -37,8 +38,7 @@ struct lock {
 	Window root, win;
 	Pixmap pmap;
 	unsigned long colors[NUMCOLS];
-	GC gc;
-	XRRScreenResources *rrsr;
+  char *colorname[NUMCOLS];
 };
 
 struct xrandr {
@@ -128,41 +128,45 @@ gethash(void)
 }
 
 static void
-draw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
-     unsigned int color)
+showimage(Display *dpy, Window win, const char *color)
 {
-	int screen, crtc;
-	XRRCrtcInfo* rrci;
+  XImage *ximage;
+  XpmAttributes xpmattr;
+  XpmColorSymbol colorSymbols[1];
 
-	if (rr->active) {
-		for (screen = 0; screen < nscreens; screen++) {
-			XSetWindowBackground(dpy, locks[screen]->win,locks[screen]->colors[BG]);
-			XClearWindow(dpy, locks[screen]->win);
-			XSetForeground(dpy, locks[screen]->gc, locks[screen]->colors[color]);
-			for (crtc = 0; crtc < locks[screen]->rrsr->ncrtc; ++crtc) {
-				rrci = XRRGetCrtcInfo(dpy,
-				                      locks[screen]->rrsr,
-				                      locks[screen]->rrsr->crtcs[crtc]);
-				/* skip disabled crtc */
-				if (rrci->noutput > 0)
-					XFillRectangle(dpy,
-					               locks[screen]->win,
-					               locks[screen]->gc,
-					               rrci->x + (rrci->width - squaresize) / 2,
-					               rrci->y + (rrci->height - squaresize) / 2,
-					               squaresize,
-					               squaresize);
-				XRRFreeCrtcInfo(rrci);
-			}
-		}
-	} else {
-		for (screen = 0; screen < nscreens; screen++) {
-			XSetWindowBackground(dpy,
-			                     locks[screen]->win,
-			                     locks[screen]->colors[color]);
-			XClearWindow(dpy, locks[screen]->win);
-		}
-	}
+  /*char color_buffer[8];*/
+
+  /*snprintf(color_buffer, sizeof(color_buffer), "#%06lx", color & 0xFFFFFF);*/
+
+  xpmattr.valuemask = XpmColorSymbols;
+  
+  colorSymbols[0].name = "X";
+  /*colorSymbols[1].value = color_buffer;*/
+  colorSymbols[0].value = (char *)color;
+
+  xpmattr.colorsymbols = colorSymbols;
+  xpmattr.numsymbols = 1;
+  // Read the XPM file and apply the custom color mapping.
+  if (XpmReadFileToImage(dpy, imgpath, &ximage, NULL, &xpmattr) == XpmSuccess) {
+      // Setup to listen for events.
+      XSelectInput(dpy, win, ButtonPressMask | ExposureMask);
+      XMapWindow(dpy, win);
+      // Display the image.
+      XPutImage(dpy, win, DefaultGC(dpy, 0), ximage,
+                0, 0, imgoffsetx, imgoffsety, imgwidth, imgheight);
+  } else {
+      fprintf(stderr, "Error loading the image.\n");
+  }
+/*  int result = XpmReadFileToImage(dpy, imgpath, &ximage, NULL, &xpmattr);*/
+/*  if (result != XpmSuccess) {*/
+/*    fprintf(stderr, "slock: XpmReadFileToImage failed: %d\n", result);*/
+/*    return;*/
+/*  }*/
+/*  printf("XImage loaded: width = %d, height = %d\n", ximage->width, ximage->height);*/
+/*  XSelectInput(dpy, win, ButtonPressMask|ExposureMask);*/
+/*  XMapWindow(dpy, win);*/
+/*  XPutImage(dpy, win, DefaultGC(dpy, 0), ximage, 0, 0, imgoffsetx, imgoffsety, imgwidth, imgheight);*/
+/*  XFlush(dpy);*/
 }
 
 static void
@@ -230,7 +234,15 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 			}
 			color = len ? INPUT : ((failure || failonclear) ? FAILED : INIT);
 			if (running && oldc != color) {
-				draw(dpy, rr, locks, nscreens, color);
+				for (screen = 0; screen < nscreens; screen++) {
+					XSetWindowBackground(dpy,
+					                     locks[screen]->win,
+					                     locks[screen]->colors[BG]);
+
+					XClearWindow(dpy, locks[screen]->win);
+          if (showimgonlyatstart != 1)
+            showimage(dpy, locks[screen]->win, locks[screen]->colorname[color]);
+				}
 				oldc = color;
 			}
 		} else if (rr->active && ev.type == rr->evbase + RRScreenChangeNotify) {
@@ -244,7 +256,6 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 					else
 						XResizeWindow(dpy, locks[screen]->win,
 						              rre->width, rre->height);
-					XClearWindow(dpy, locks[screen]->win);
 					break;
 				}
 			}
@@ -264,7 +275,6 @@ lockscreen(Display *dpy, struct xrandr *rr, int screen)
 	XColor color, dummy;
 	XSetWindowAttributes wa;
 	Cursor invisible;
-	XGCValues gcvalues;
 
 	if (dpy == NULL || screen < 0 || !(lock = malloc(sizeof(struct lock))))
 		return NULL;
@@ -292,10 +302,10 @@ lockscreen(Display *dpy, struct xrandr *rr, int screen)
 	invisible = XCreatePixmapCursor(dpy, lock->pmap, lock->pmap,
 	                                &color, &color, 0, 0);
 	XDefineCursor(dpy, lock->win, invisible);
-	lock->gc = XCreateGC(dpy, lock->win, 0, &gcvalues);
-	XSetForeground(dpy, lock->gc, lock->colors[INIT]);
-	if (rr->active)
-		lock->rrsr = XRRGetScreenResourcesCurrent(dpy, lock->root);
+
+  showimage(dpy, lock->win, lock->colorname[INIT]);
+  printf("Screen dimensions: %d x %d\n", DisplayWidth(dpy, lock->screen), DisplayHeight(dpy, lock->screen));
+
 
 	/* Try to grab mouse pointer *and* keyboard for 600ms, else fail the lock */
 	for (i = 0, ptgrab = kbgrab = -1; i < 6; i++) {
@@ -428,9 +438,6 @@ main(int argc, char **argv) {
 			_exit(1);
 		}
 	}
-
-	/* draw the initial rectangle */
-	draw(dpy, &rr, locks, nscreens, INIT);
 
 	/* everything is now blank. Wait for the correct password */
 	readpw(dpy, &rr, locks, nscreens, hash);
