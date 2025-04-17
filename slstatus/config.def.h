@@ -67,10 +67,9 @@ static const struct arg args[] = {
 	/* function format          argument */
 	{ battery_perc, "^c#CD664D^ %s%% ", "BAT0" },
 	{ kernel_release, "^c#CAC4AD^ Debian %s ", NULL },
-  { run_command, "^c#CAC4AD^ [ Updates: %s ] ", "aptitude search '~U' | wc -l" },
   { cpu_perc, "^c#CAC4AD^ [ CPU %s%% ] ", NULL },
   { ram_perc, "^c#CAC4AD^ [ RAM %s%% ] ", NULL },
-  { run_command, "^c#CAC4AD^ [ VOL %s%% ] ", "pactl get-sink-volume @DEFAULT_SINK@ | head -1 | awk '{print $5}' | sed 's/.$//'" },
+  { run_command, "%s% ", "if [ \"$(pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}')\" = \"yes\" ]; then echo ^c#CD664D^ [ MUTE ]; else echo ^c#CAC4AD^ [ VOL: $(pactl get-sink-volume @DEFAULT_SINK@ | head -1 | awk '{print $5}' | sed 's/.$//')% ]; fi;] " },
   { datetime, "^c#3BA99F^ %s",            "%a %b %-d" },
   { datetime, "^c#3BA99F^ %s",            "%l:%M %p" },
 };
