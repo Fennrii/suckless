@@ -14,7 +14,19 @@ list=(
   "fastfetch"
   )
 
-sudo apt install -y "${list[@]}" || {
-  echo "Failed to install packages. Please check your internet connection or package manager."
+if command -v xbps-install &> /dev/null; then
+  # Void Linux
+  sudo xbps-install -Sy "${list[@]}" || {
+    echo "Failed to install packages with xbps. Please check your internet connection or package manager."
+    exit 1
+  }
+elif command -v apt &> /dev/null; then
+  # Debian/Ubuntu
+  sudo apt install -y "${list[@]}" || {
+    echo "Failed to install packages with apt. Please check your internet connection or package manager."
+    exit 1
+  }
+else
+  echo "Unsupported package manager. Please install dependencies manually."
   exit 1
-}
+fi
