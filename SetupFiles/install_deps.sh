@@ -1,6 +1,32 @@
 #!/bin/bash
 
-sudo apt install -y xorg-dev sxhkd ksnip
-sudo apt install -y feh picom dunst
-sudo apt install -y arandr autorandr network-manager
-sudo apt install -y alsa-utils fastfetch
+list=(
+  "xorg-dev"
+  "sxhkd"
+  "ksnip"
+  "feh"
+  "picom"
+  "dunst"
+  "arandr"
+  "autorandr"
+  "network-manager"
+  "alsa-utils"
+  "fastfetch"
+  )
+
+if command -v xbps-install &> /dev/null; then
+  # Void Linux
+  sudo xbps-install -Sy "${list[@]}" || {
+    echo "Failed to install packages with xbps. Please check your internet connection or package manager."
+    exit 1
+  }
+elif command -v apt &> /dev/null; then
+  # Debian/Ubuntu
+  sudo apt install -y "${list[@]}" || {
+    echo "Failed to install packages with apt. Please check your internet connection or package manager."
+    exit 1
+  }
+else
+  echo "Unsupported package manager. Please install dependencies manually."
+  exit 1
+fi
