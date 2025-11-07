@@ -65,8 +65,8 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument */
-	{ battery_perc, "^c#CD664D^ %s%% ", "BAT0" },
-	{ kernel_release, "^c#CAC4AD^ Debian %s ", NULL },
+	{ run_command, "^c#CD664D^ %s ", "$HOME/.config/suckless/slstatus/scripts/battery.sh" },
+	{ kernel_release, "^c#CAC4AD^ %s ", NULL },
   { cpu_perc, "^c#CAC4AD^ [ CPU %s%% ] ", NULL },
   { ram_perc, "^c#CAC4AD^ [ RAM %s%% ] ", NULL },
   { run_command, "%s ", "$HOME/.config/suckless/slstatus/scripts/volume.sh" },
