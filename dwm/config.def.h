@@ -88,7 +88,7 @@ static const char *browser[]  = { "firefox", NULL };
 static const char *google[] = { "chromium", NULL };
 static const char *sshotcmd[] = { "ksnip", "-r", NULL };
 static const char *suspend[] = { "slock", NULL };
-static const char *shutoff[] = { "systemctl", "poweroff", "--now", NULL };
+static const char *shutoff[] = { "sudo", "shutdown", "-h", "now", NULL };
 
 #include "movestack.c"
 static const Key keys[] = {
