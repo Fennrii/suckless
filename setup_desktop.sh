@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./SetupFiles/install_deps.sh
+# ./SetupFiles/install_deps.sh
 
 if [ ! -d "/usr/share/xsessions/" ]; then
   sudo mkdir /usr/share/xsessions/
