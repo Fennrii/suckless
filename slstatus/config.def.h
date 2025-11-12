@@ -66,6 +66,8 @@ static const char unknown_str[] = "n/a";
 static const struct arg args[] = {
 	/* function format          argument */
 	{ run_command, "^c#CD664D^ %s ", "$HOME/.config/suckless/slstatus/scripts/battery.sh" },
+  { wifi_perc, "^c#CAC4AD^WIFI: %s%% ", "wlp3s0" },
+  { wifi_essid, "^c#CAC4AD^%s ", "wlp3s0" },
 	{ kernel_release, "^c#CAC4AD^ %s ", NULL },
   { cpu_perc, "^c#CAC4AD^ [ CPU %s%% ] ", NULL },
   { ram_perc, "^c#CAC4AD^ [ RAM %s%% ] ", NULL },
