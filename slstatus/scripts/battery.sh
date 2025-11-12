@@ -1,4 +1,6 @@
 #!/bin/bash
 if [ -f "/sys/class/power_supply/BAT0/capacity" ]; then
-	cat /sys/class/power_supply/BAT0/capacity
+  echo "$(cat /sys/class/power_supply/BAT0/capacity)%" 
+else
+  echo "Plug"
 fi
