@@ -21,6 +21,7 @@ char *utmp = NULL;
 /* scroll program: to enable use a string like "scroll" */
 char *scroll = NULL;
 char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
+unsigned int scrollback_lines = 2000;
 
 /* identification sequence returned in DA and DECID */
 char *vtiden = "\033[?6c";
